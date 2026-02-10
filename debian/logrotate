@@ -1,0 +1,5 @@
+/var/log/betopiaerp/*.log {
+    copytruncate
+    missingok
+    notifempty
+}

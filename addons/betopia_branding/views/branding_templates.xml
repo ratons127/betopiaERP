@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<betopiaerp>
+    <template id="betopia_brand_promotion_message" inherit_id="web.brand_promotion_message" name="BetopiaERP Brand Promotion">
+        <xpath expr="." position="inside">
+            <t t-set="brand_name" t-value="env['ir.config_parameter'].sudo().get_param('betopia.brand_name', 'BetopiaERP')"/>
+        </xpath>
+        <xpath expr="//t[@t-set='betopiaerp_logo']" position="replace">
+            <t t-set="betopiaerp_logo">
+                <a target="_blank"
+                   t-attf-href="http://www.BetopiaERP.com?utm_source=db&amp;utm_medium=#{_utm_medium}"
+                   class="badge text-bg-light">
+                    <img t-att-alt="brand_name"
+                         src="/web/static/img/betopiaerp_logo_tiny.png"
+                         width="62" height="20"
+                         style="width: auto; height: 1em; vertical-align: baseline;"/>
+                </a>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-set='final_message']" position="replace">
+            <t t-set="final_message">Powered by %s%s</t>
+        </xpath>
+    </template>
+
+    <template id="betopia_login_footer" inherit_id="web.login_layout" name="BetopiaERP Login Footer">
+        <xpath expr="//a[contains(@href, 'BetopiaERP.com')]/span" position="replace">
+            <span t-esc="env['ir.config_parameter'].sudo().get_param('betopia.brand_name', 'BetopiaERP')"/>
+        </xpath>
+        <xpath expr="//a[contains(@href, 'BetopiaERP.com')]/.." position="attributes">
+            <attribute name="title"><t t-esc="env['ir.config_parameter'].sudo().get_param('betopia.brand_name', 'BetopiaERP')"/></attribute>
+        </xpath>
+    </template>
+
+    <template id="betopia_report_title" inherit_id="web.report_layout" name="BetopiaERP Report Title">
+        <xpath expr="/html/head" position="inside">
+            <t t-set="brand_name" t-value="env['ir.config_parameter'].sudo().get_param('betopia.brand_name', 'BetopiaERP')"/>
+        </xpath>
+        <xpath expr="/html/head/title" position="replace">
+            <title><t t-esc="title or (brand_name + ' Report')"/></title>
+        </xpath>
+    </template>
+
+    <template id="betopia_report_title_preview" inherit_id="web.report_preview_layout" name="BetopiaERP Report Title Preview">
+        <xpath expr="/html/head" position="inside">
+            <t t-set="brand_name" t-value="env['ir.config_parameter'].sudo().get_param('betopia.brand_name', 'BetopiaERP')"/>
+        </xpath>
+        <xpath expr="/html/head/title" position="replace">
+            <title><t t-esc="title or (brand_name + ' Report')"/></title>
+        </xpath>
+    </template>
+
+    <template id="betopia_remove_brand_promotion" inherit_id="web.brand_promotion" name="Remove Brand Promotion">
+        <xpath expr="." position="replace">
+            <div class="o_brand_promotion d-none"/>
+        </xpath>
+    </template>
+
+    <template id="betopia_remove_login_footer" inherit_id="web.login_layout" name="Remove Login Footer">
+        <xpath expr="//div[contains(@class, 'text-center') and contains(@class, 'small')][a[contains(@href, 'BetopiaERP.com')]]" position="replace">
+            <div class="d-none"/>
+        </xpath>
+    </template>
+
+    <template id="betopia_remove_portal_powered_by" inherit_id="portal.portal_record_sidebar" name="Remove Portal Powered By">
+        <xpath expr="//div[contains(@class, 'text-muted')][contains(., 'Powered by')]" position="replace">
+            <div class="d-none"/>
+        </xpath>
+    </template>
+</betopiaerp>

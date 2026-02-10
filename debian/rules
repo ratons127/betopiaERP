@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+export DH_VERBOSE=1
+export PYBUILD_NAME=betopiaerp-bin
+export PYBUILD_DISABLE=test
+
+%:
+	dh ${@} --with=python3 --buildsystem=pybuild
+
+override_dh_auto_build:
+	cp -r addons/* betopiaerp/addons/
+	dh_auto_build
+
+override_dh_auto_install:
+	dh_auto_install
+	rm debian/betopiaerp/usr/lib/python3*/dist-packages/betopiaerp/addons/point_of_sale/static/src/fonts/Inconsolata.otf
+	for LINKTARGET in `awk '{ print $2 }' betopiaerp.links`; do rm debian/betopiaerp/${LINKTARGET} ; done
+	find debian/betopiaerp -name LICENSE.txt -exec rm {} \;
+
+override_dh_auto_clean:
+	dh_auto_clean
+	for d in addons/* ; do rm -fr betopiaerp/$$d ; done

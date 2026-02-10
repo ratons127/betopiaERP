@@ -1,0 +1,9 @@
+# Part of BetopiaERP. See LICENSE file for full copyright and licensing details.
+
+from betopiaerp import fields, models
+
+
+class HrVersion(models.Model):
+    _inherit = ['hr.version']
+
+    l10n_{{code}}_field = fields.Char()

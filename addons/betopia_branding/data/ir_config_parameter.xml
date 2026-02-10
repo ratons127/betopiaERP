@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<betopiaerp>
+    <data noupdate="1">
+        <record id="param_betopia_brand_name" model="ir.config_parameter">
+            <field name="key">betopia.brand_name</field>
+            <field name="value">BetopiaERP</field>
+        </record>
+    </data>
+</betopiaerp>

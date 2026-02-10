@@ -1,0 +1,44 @@
+#!/bin/sh
+
+set -e
+
+BETOPIAERP_CONFIGURATION_FILE=/etc/betopiaerp/betopiaerp.conf
+BETOPIAERP_GROUP="betopiaerp"
+BETOPIAERP_DATA_DIR=/var/lib/betopiaerp
+BETOPIAERP_LOG_DIR=/var/log/betopiaerp
+BETOPIAERP_USER="betopiaerp"
+GSFONTS_DIR=/usr/share/fonts/type1/gsfonts
+
+case "${1}" in
+    configure)
+        if ! getent passwd | grep -q "^betopiaerp:"; then
+            adduser --system --home $BETOPIAERP_DATA_DIR --quiet --group $BETOPIAERP_USER
+            # Data dir
+            chown $BETOPIAERP_USER:$BETOPIAERP_GROUP $BETOPIAERP_DATA_DIR
+        fi
+        # Register "$BETOPIAERP_USER" as a postgres user with "Create DB" role attribute
+        su - postgres -c "createuser -d -R -S $BETOPIAERP_USER" 2> /dev/null || true
+        # Configuration file
+        chown $BETOPIAERP_USER:$BETOPIAERP_GROUP $BETOPIAERP_CONFIGURATION_FILE
+        chmod 0640 $BETOPIAERP_CONFIGURATION_FILE
+        # Log
+        mkdir -p $BETOPIAERP_LOG_DIR
+        chown $BETOPIAERP_USER:$BETOPIAERP_GROUP $BETOPIAERP_LOG_DIR
+        chmod 0750 $BETOPIAERP_LOG_DIR
+        	# work around https://bugs.debian.org/1059326
+
+        if ! [ -e ${GSFONTS_DIR}/n021003l.pfb ] ; then
+            if ! [ -d ${GSFONTS_DIR} ] ; then
+                mkdir ${GSFONTS_DIR}
+                touch ${GSFONTS_DIR}/.created-by-betopiaerp-package
+            fi
+            ln -s /usr/share/fonts/X11/Type1/C059-Roman.pfb ${GSFONTS_DIR}/n021003l.pfb
+        fi
+        ;;
+    *)
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

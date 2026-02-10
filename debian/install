@@ -1,0 +1,2 @@
+debian/betopiaerp.conf /etc/betopiaerp
+README.md /usr/share/doc/betopiaerp
