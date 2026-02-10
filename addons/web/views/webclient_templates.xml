@@ -20,7 +20,9 @@
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <title t-esc="title or 'BetopiaERP'"/>
-        <link type="image/x-icon" rel="shortcut icon" t-att-href="x_icon or '/web/static/img/favicon.ico'"/>
+        <!-- Prefer a PNG icon (supports dynamic replacement via x_icon), keep legacy .ico as fallback. -->
+        <link rel="icon" type="image/png" t-att-href="x_icon or '/web/static/img/betopiaerp_logo_tiny.png'"/>
+        <link rel="shortcut icon" type="image/x-icon" href="/web/static/img/favicon.ico"/>
         <script id="web.layout.betopiaerpscript" type="text/javascript">
             var betopiaerp = {
                 csrf_token: "<t t-esc="request.csrf_token(None)"/>",
